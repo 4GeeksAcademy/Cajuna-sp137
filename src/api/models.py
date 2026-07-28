@@ -39,11 +39,6 @@ class Company(db.Model):
         nullable=False,
     )
 
-    email: Mapped[str] = mapped_column(
-        String(255),
-        nullable=False,
-    )
-
     phone: Mapped[str | None] = mapped_column(
         String(30),
         nullable=True,
@@ -76,6 +71,18 @@ class Company(db.Model):
         onupdate=lambda: datetime.now(UTC),
         nullable=False,
     )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "tax_id": self.tax_id,
+            "phone": self.phone,
+            "address": self.address,
+            "city": self.city,
+            "country": self.country,
+            "created_at": self.created_at.isoformat(),
+        }
 
 
 class Employee(db.Model):

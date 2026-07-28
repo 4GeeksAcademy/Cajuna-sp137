@@ -10,6 +10,7 @@ from flask_swagger import swagger
 
 from api.admin import setup_admin
 from api.commands import setup_commands
+from api.companies import companies_bp
 from api.employees import employees_bp
 from api.models import db
 from api.routes import api
@@ -44,6 +45,7 @@ setup_commands(app)
 # Add all endpoints form the API with a "api" prefix
 app.register_blueprint(api, url_prefix="/api")
 app.register_blueprint(employees_bp, url_prefix="/api")
+app.register_blueprint(companies_bp, url_prefix="/api")
 
 
 # Handle/serialize errors like a JSON object
