@@ -39,11 +39,6 @@ class Company(db.Model):
         nullable=False,
     )
 
-    email: Mapped[str] = mapped_column(
-        String(255),
-        nullable=False,
-    )
-
     phone: Mapped[str | None] = mapped_column(
         String(30),
         nullable=True,
