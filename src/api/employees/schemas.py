@@ -33,10 +33,6 @@ class EmployeePatchSchema(BaseModel):
         max_length=100,
     )
     email: EmailStr | None = None
-    password: str | None = Field(
-        default=None,
-        max_length=255,
-    )
     phone: str | None = Field(
         default=None,
         max_length=30,
