@@ -1,6 +1,6 @@
 import click
 
-from api.models import Employee, User, db
+from api.models import Company, Employee, User, db
 
 """
 In this file, you can add as many commands as you want using the @app.cli.command decorator
@@ -45,3 +45,18 @@ def setup_commands(app):
 
         db.session.commit()
         print("All test employees created")
+
+    @app.cli.command("insert-test-companies")
+    @click.argument("count")
+    def insert_test_companies(count):
+        for x in range(1, int(count) + 1):
+            company = Company()
+            company.name = f"Empresa {x}"
+            company.tax_id = f"TAX-{x}-00000"
+            company.phone = f"+1234567{x}"
+            company.address = f"Calle {x} #{x}"
+            company.city = f"Ciudad {x}"
+            company.country = "Venezuela"
+            db.session.add(company)
+        db.session.commit()
+        print(f"{count} test companies created")
