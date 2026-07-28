@@ -81,22 +81,23 @@ class Company(db.Model):
 class Employee(db.Model):
     __tablename__: str = "employee"
 
-    __table_args__: tuple[UniqueConstraint] = (
-        UniqueConstraint(
-            "company_id",
-            "email",
-            name="uq_employee_company_email",
-        ),
-    )
+    # __table_args__: tuple[UniqueConstraint] = (
+    #     UniqueConstraint(
+    #         "company_id",
+    #         "email",
+    #         name="uq_employee_company_email",
+    #     ),
+    # )
 
     id: Mapped[int] = mapped_column(
         primary_key=True,
     )
 
-    company_id: Mapped[int] = mapped_column(
-        ForeignKey("company.id"),
-        nullable=False,
-    )
+    # Se prepara para la relacion
+    # company_id: Mapped[int] = mapped_column(
+    #     ForeignKey("company.id"),
+    #     nullable=False,
+    # )
 
     first_name: Mapped[str] = mapped_column(
         String(100),
@@ -110,6 +111,7 @@ class Employee(db.Model):
 
     email: Mapped[str] = mapped_column(
         String(255),
+        unique=True,
         nullable=False,
     )
 
@@ -147,3 +149,16 @@ class Employee(db.Model):
         onupdate=lambda: datetime.now(UTC),
         nullable=False,
     )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            # "company_id": self.company_id,
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "email": self.email,
+            "phone": self.phone,
+            "is_admin": self.is_admin,
+            "is_active": self.is_active,
+            "created_at": self.created_at.isoformat(),
+        }
