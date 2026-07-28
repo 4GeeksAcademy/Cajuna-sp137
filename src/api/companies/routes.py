@@ -1,38 +1,23 @@
-# from http import HTTPStatus
-
-# from flask import jsonify, request
-# from pydantic import ValidationError
-# from sqlalchemy import select
-
-# from api.employees import employees_bp
-# from api.models import Employee, db
-
-# from .schemas import EmployeeCreateSchema, EmployeePatchSchema
-
-
 from http import HTTPStatus
 
 from flask import jsonify, request
-from flask_cors import CORS
 from pydantic import ValidationError
 from sqlalchemy import select
 
 from api.companies import companies_bp
+from api.models import Company, db
 
 from .schemas import CompanyCreateSchema, CompanyPatchSchema
-
-CORS(companies_bp)
-from api.models import Company, db
 
 
 @companies_bp.get("/companies")
 def get_companies():
-    employees = db.session.scalars(select(Company)).all()
-    return jsonify([employee.to_dict() for employee in employees]), HTTPStatus.OK
+    companies = db.session.scalars(select(Company)).all()
+    return jsonify([company.to_dict() for company in companies]), HTTPStatus.OK
 
 
 @companies_bp.get("/companies/<int:company_id>")
-def get_employee(company_id: int):
+def get_company(company_id: int):
     company: Company | None = db.session.get(Company, company_id)
     if not company:
         return jsonify({"error": "Company not found"}), HTTPStatus.NOT_FOUND
