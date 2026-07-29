@@ -32,19 +32,23 @@ def setup_commands(app):
         print("All test users created")
 
     @app.cli.command("insert-test-employees")
-    @click.argument("count")  # argument of out command
-    def insert_test_data(count):
+    @click.argument("count")
+    def insert_test_employees(count):
         for x in range(1, int(count) + 1):
-            employee: Employee = Employee()
-            employee.first_name = f"Nombre {x}"
-            employee.last_name = f"Apellido {x}"
-            employee.email = f"empleado_prueba_{x}@test.com"
+            employee = Employee()
+            if x == 1:
+                employee.first_name = "Admin"
+                employee.last_name = "Sistema"
+                employee.email = "admin@sistema.com"
+            else:
+                employee.first_name = f"Empleado {x}"
+                employee.last_name = f"Apellido {x}"
+                employee.email = f"empleado_{x}@test.com"
             employee.password = "12345"
-            employee.is_active = False
             db.session.add(employee)
 
         db.session.commit()
-        print("All test employees created")
+        print(f"{count} test employees created")
 
     @app.cli.command("insert-test-companies")
     @click.argument("count")

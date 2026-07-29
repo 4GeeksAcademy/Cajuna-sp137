@@ -132,18 +132,6 @@ class Employee(db.Model):
         nullable=True,
     )
 
-    is_admin: Mapped[bool] = mapped_column(
-        Boolean,
-        default=False,
-        nullable=False,
-    )
-
-    is_active: Mapped[bool] = mapped_column(
-        Boolean,
-        default=True,
-        nullable=False,
-    )
-
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
         default=lambda: datetime.now(UTC),
@@ -165,7 +153,6 @@ class Employee(db.Model):
             "last_name": self.last_name,
             "email": self.email,
             "phone": self.phone,
-            "is_admin": self.is_admin,
-            "is_active": self.is_active,
             "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
         }

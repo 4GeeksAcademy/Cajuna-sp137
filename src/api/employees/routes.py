@@ -54,7 +54,6 @@ def create_employee():
         email=employee_data.email,
         password=employee_data.password,
         phone=employee_data.phone,
-        is_admin=employee_data.is_admin,
     )
 
     db.session.add(employee)

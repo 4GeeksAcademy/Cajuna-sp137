@@ -17,8 +17,6 @@ class EmployeeCreateSchema(BaseModel):
         default=None,
         max_length=30,
     )
-    is_admin: bool = False
-
 
 class EmployeePatchSchema(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -37,5 +35,3 @@ class EmployeePatchSchema(BaseModel):
         default=None,
         max_length=30,
     )
-    is_admin: bool | None = None
-    is_active: bool | None = None
