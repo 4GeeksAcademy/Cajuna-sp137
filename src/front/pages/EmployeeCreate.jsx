@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import useGlobalReducer from "../hooks/useGlobalReducer"
 
 export const EmployeeCreate = () => {
   const navigate = useNavigate()
+  const { store } = useGlobalReducer()
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -22,7 +24,7 @@ export const EmployeeCreate = () => {
       const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/api/employees", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, company_id: store.selectedCompany.id }),
       })
       if (res.ok) navigate("/employees")
       else {
@@ -38,6 +40,14 @@ export const EmployeeCreate = () => {
     <div className="container mt-4">
       <h1>New Employee</h1>
       <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label className="form-label">Company</label>
+          <input
+            className="form-control"
+            value={store.selectedCompany?.name || "No company selected"}
+            disabled
+          />
+        </div>
         <div className="mb-3">
           <label className="form-label">First Name</label>
           <input name="first_name" value={form.first_name} onChange={handleChange} className="form-control" required />
@@ -58,7 +68,9 @@ export const EmployeeCreate = () => {
           <label className="form-label">Phone</label>
           <input name="phone" value={form.phone} onChange={handleChange} className="form-control" />
         </div>
-        <button type="submit" className="btn btn-primary">Create</button>
+        <button type="submit" className="btn btn-primary" disabled={!store.selectedCompany}>
+          {store.selectedCompany ? "Create" : "Select a company first"}
+        </button>
         <Link to="/employees" className="btn btn-secondary ms-2">Cancel</Link>
       </form>
     </div>

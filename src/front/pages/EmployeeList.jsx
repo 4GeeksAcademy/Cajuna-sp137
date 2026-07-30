@@ -1,17 +1,30 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import useGlobalReducer from "../hooks/useGlobalReducer"
 
 export const EmployeeList = () => {
+    const { store } = useGlobalReducer()
     const [employees, setEmployees] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch(import.meta.env.VITE_BACKEND_URL + "/api/employees")
-            .then(res => res.json())
-            .then(data => setEmployees(data))
-            .catch(err => console.error("Error fetching employees:", err))
-            .finally(() => setLoading(false))
-    }, [])
+        async function loadEmployees() {
+            setLoading(true)
+            try {
+                const params = store.selectedCompany
+                    ? `?company_id=${store.selectedCompany.id}`
+                    : ""
+                const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/api/employees" + params)
+                const data = await res.json()
+                setEmployees(data)
+            } catch (err) {
+                console.error("Error fetching employees:", err)
+            } finally {
+                setLoading(false)
+            }
+        }
+        loadEmployees()
+    }, [store.selectedCompany?.id])
 
     if (loading) return <div className="container mt-4"><div className="spinner-border" role="status" /></div>
 
@@ -28,6 +41,7 @@ export const EmployeeList = () => {
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Email</th>
+                        <th>Company</th>
                         <th>Phone</th>
                         <th>Created</th>
                         <th>Updated</th>
@@ -41,6 +55,7 @@ export const EmployeeList = () => {
                             <td>{emp.first_name}</td>
                             <td>{emp.last_name}</td>
                             <td>{emp.email}</td>
+                            <td>{emp.company_name}</td>
                             <td>{emp.phone || "—"}</td>
                             <td>{new Date(emp.created_at).toLocaleDateString()}</td>
                             <td>{new Date(emp.updated_at).toLocaleDateString()}</td>
@@ -60,7 +75,8 @@ export const EmployeeList = () => {
                         <div className="card-body py-2">
                             <div>
                                 <strong>{emp.first_name} {emp.last_name}</strong><br />
-                                <small className="text-muted">{emp.email}</small>
+                                <small className="text-muted">{emp.email}</small><br />
+                                <small className="text-muted">{emp.company_name}</small>
                             </div>
                             <div className="mt-2">
                                 <Link to={`/employees/${emp.id}`} className="btn btn-sm btn-outline-primary me-1">Ver</Link>

@@ -12,7 +12,11 @@ from .schemas import EmployeeCreateSchema, EmployeePatchSchema
 
 @employees_bp.get("/employees")
 def get_employees():
-    employees = db.session.scalars(select(Employee)).all()
+    company_id = request.args.get("company_id", type=int)
+    query = select(Employee)
+    if company_id:
+        query = query.where(Employee.company_id == company_id)
+    employees = db.session.scalars(query).all()
     return jsonify([employee.to_dict() for employee in employees]), HTTPStatus.OK
 
 
@@ -49,6 +53,7 @@ def create_employee():
         return jsonify({"errors": e.errors()}), HTTPStatus.UNPROCESSABLE_ENTITY
 
     employee = Employee(
+        company_id=employee_data.company_id,
         first_name=employee_data.first_name,
         last_name=employee_data.last_name,
         email=employee_data.email,

@@ -11,6 +11,7 @@ export const EmployeeEdit = () => {
     last_name: "",
     email: "",
     phone: "",
+    companyName: "",
   })
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export const EmployeeEdit = () => {
         last_name: data.last_name,
         email: data.email,
         phone: data.phone || "",
+        companyName: data.company_name,
       }))
       .catch(err => console.error(err))
       .finally(() => setLoading(false))
@@ -37,10 +39,11 @@ export const EmployeeEdit = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+      const { companyName, ...payload } = form
       const res = await fetch(import.meta.env.VITE_BACKEND_URL + "/api/employees/" + id, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       })
       if (res.ok) navigate("/employees")
       else {
@@ -73,6 +76,10 @@ export const EmployeeEdit = () => {
         <div className="mb-3">
           <label className="form-label">Phone</label>
           <input name="phone" value={form.phone} onChange={handleChange} className="form-control" />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Company</label>
+          <input className="form-control" value={form.companyName} disabled />
         </div>
         <button type="submit" className="btn btn-primary">Save</button>
         <Link to="/employees" className="btn btn-secondary ms-2">Cancel</Link>

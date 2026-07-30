@@ -3,6 +3,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 class EmployeeCreateSchema(BaseModel):
     model_config = ConfigDict(extra="forbid")
+    company_id: int
     first_name: str = Field(
         min_length=1,
         max_length=100,
@@ -17,6 +18,7 @@ class EmployeeCreateSchema(BaseModel):
         default=None,
         max_length=30,
     )
+
 
 class EmployeePatchSchema(BaseModel):
     model_config = ConfigDict(extra="forbid")
