@@ -33,34 +33,44 @@ def setup_commands(app):
 
     @app.cli.command("insert-test-employees")
     @click.argument("count")
-    def insert_test_employees(count):
+    @click.option("--company-id", default=1, help="Company ID to assign employees to")
+    def insert_test_employees(count, company_id):
+        company = db.session.get(Company, company_id)
+        if not company:
+            print(f"Company {company_id} not found")
+            return
         for x in range(1, int(count) + 1):
-            employee = Employee()
-            if x == 1:
-                employee.first_name = "Admin"
-                employee.last_name = "Sistema"
-                employee.email = "admin@sistema.com"
-            else:
-                employee.first_name = f"Empleado {x}"
-                employee.last_name = f"Apellido {x}"
-                employee.email = f"empleado_{x}@test.com"
-            employee.password = "12345"
+            employee = Employee(
+                first_name=f"Empleado {x}",
+                last_name=f"Apellido {x}",
+                email=f"empleado_{company_id}_{x}@test.com",
+                password="12345",
+                company_id=company.id,
+            )
             db.session.add(employee)
-
         db.session.commit()
-        print(f"{count} test employees created")
+        print(f"{count} test employees created for company {company.name}")
 
     @app.cli.command("insert-test-companies")
     @click.argument("count")
     def insert_test_companies(count):
         for x in range(1, int(count) + 1):
-            company = Company()
-            company.name = f"Empresa {x}"
-            company.tax_id = f"TAX-{x}-00000"
-            company.phone = f"+1234567{x}"
-            company.address = f"Calle {x} #{x}"
-            company.city = f"Ciudad {x}"
-            company.country = "Venezuela"
+            company = Company(
+                name=f"Empresa {x}",
+                tax_id=f"TAX-{x}-00000",
+                phone=f"+1234567{x}",
+                address=f"Calle {x} #{x}",
+                city=f"Ciudad {x}",
+                country="Venezuela",
+            )
+            company.employees.append(
+                Employee(
+                    first_name="Admin",
+                    last_name="Sistema",
+                    email=f"admin-{x}@sistema.com",
+                    password="12345",
+                )
+            )
             db.session.add(company)
         db.session.commit()
         print(f"{count} test companies created")
