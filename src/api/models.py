@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (
     Boolean,
     DateTime,
+    Enum,
     ForeignKey,
     Integer,
     String,
@@ -195,6 +196,19 @@ class Material(db.Model):
         nullable=False,
     )
 
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -203,6 +217,8 @@ class Material(db.Model):
             "quantity": self.quantity,
             "unit": self.unit,
             "minimum_stock": self.minimum_stock,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
         }
 
 
@@ -247,6 +263,8 @@ class MaterialRequest(db.Model):
         nullable=False,
     )
 
+    items: Mapped[list["MaterialRequestItem"]] = relationship()
+
     def to_dict(self):
         return {
             "id": self.id,
@@ -287,10 +305,13 @@ class MaterialRequestItem(db.Model):
         nullable=False,
     )
 
+    material: Mapped["Material"] = relationship()
+
     def to_dict(self):
         return {
             "id": self.id,
             "request_id": self.request_id,
             "material_id": self.material_id,
+            "material_name": self.material.name,
             "quantity_requested": self.quantity_requested,
         }
