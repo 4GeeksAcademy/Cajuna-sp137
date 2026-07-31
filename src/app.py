@@ -14,6 +14,7 @@ from api.companies import companies_bp
 from api.employees import employees_bp
 from api.materials import materials_bp
 from api.material_requests import material_requests_bp
+from api.time_entries import time_entries_bp
 from api.models import db
 from api.routes import api
 from api.utils import APIException, generate_sitemap
@@ -21,7 +22,8 @@ from api.utils import APIException, generate_sitemap
 # from models import Person
 
 ENV = "development" if os.getenv("FLASK_DEBUG") == "1" else "production"
-static_file_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), "../dist/")
+static_file_dir = os.path.join(os.path.dirname(
+    os.path.realpath(__file__)), "../dist/")
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
@@ -50,7 +52,7 @@ app.register_blueprint(employees_bp, url_prefix="/api")
 app.register_blueprint(companies_bp, url_prefix="/api")
 app.register_blueprint(materials_bp, url_prefix="/api")
 app.register_blueprint(material_requests_bp, url_prefix="/api")
-
+app.register_blueprint(time_entries_bp, url_prefix="/api")
 
 
 # Handle/serialize errors like a JSON object
