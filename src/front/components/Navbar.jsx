@@ -11,6 +11,15 @@ export const Navbar = () => {
 				<Link to="/employees">
 					<button type="button" className="btn btn-primary">Employees</button>
 				</Link>
+				<Link to="/materials">
+					<button type="button" className="btn btn-primary">Materials</button>
+				</Link>
+				<Link to="/material-requests">
+					<button type="button" className="btn btn-primary">Material Requests</button>
+				</Link>
+				<Link to="/companies/new">
+					<button type="button" className="btn btn-success">+ New Company</button>
+				</Link>
 
 				<CompanySelector />
 

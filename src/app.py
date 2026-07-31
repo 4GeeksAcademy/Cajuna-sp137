@@ -12,6 +12,8 @@ from api.admin import setup_admin
 from api.commands import setup_commands
 from api.companies import companies_bp
 from api.employees import employees_bp
+from api.materials import materials_bp
+from api.material_requests import material_requests_bp
 from api.models import db
 from api.routes import api
 from api.utils import APIException, generate_sitemap
@@ -46,6 +48,9 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix="/api")
 app.register_blueprint(employees_bp, url_prefix="/api")
 app.register_blueprint(companies_bp, url_prefix="/api")
+app.register_blueprint(materials_bp, url_prefix="/api")
+app.register_blueprint(material_requests_bp, url_prefix="/api")
+
 
 
 # Handle/serialize errors like a JSON object

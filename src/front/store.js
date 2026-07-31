@@ -33,6 +33,16 @@ export default function storeReducer(store, action = {}) {
       }
     }
 
+    case 'add_company': {
+      console.log('Por aca andamos')
+      const newCompanies = store.companies.some(c => c.id === action.payload.id)
+        ? store.companies.map(c => c.id === action.payload.id ? action.payload : c)
+        : [...store.companies, action.payload]
+      return {
+        ...store, companies: newCompanies
+      }
+    }
+
     case 'set_hello':
       return {
         ...store,

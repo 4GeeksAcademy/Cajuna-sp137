@@ -14,6 +14,17 @@ import { EmployeeDetail } from "./pages/EmployeeDetail";
 import { EmployeeCreate } from "./pages/EmployeeCreate";
 import { EmployeeEdit } from "./pages/EmployeeEdit";
 import { EmployeeDelete } from "./pages/EmployeeDelete";
+import { MaterialList } from "./pages/MaterialList";
+import { MaterialDetail } from "./pages/MaterialDetail";
+import { MaterialCreate } from "./pages/MaterialCreate";
+import { MaterialEdit } from "./pages/MaterialEdit";
+import { MaterialDelete } from "./pages/MaterialDelete";
+import { MaterialRequestList } from "./pages/MaterialRequestList";
+import { MaterialRequestDetail } from "./pages/MaterialRequestDetail";
+import { MaterialRequestCreate } from "./pages/MaterialRequestCreate";
+import { MaterialRequestEdit } from "./pages/MaterialRequestEdit";
+import { MaterialRequestDelete } from "./pages/MaterialRequestDelete";
+import { CompanyCreate } from "./pages/CompanyCreate";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +46,20 @@ export const router = createBrowserRouter(
       <Route path="/employees/:id" element={<EmployeeDetail />} />
       <Route path="/employees/:id/edit" element={<EmployeeEdit />} />
       <Route path="/employees/:id/delete" element={<EmployeeDelete />} />
+
+      <Route path="/materials" element={<MaterialList />} />
+      <Route path="/materials/new" element={<MaterialCreate />} />
+      <Route path="/materials/:id" element={<MaterialDetail />} />
+      <Route path="/materials/:id/edit" element={<MaterialEdit />} />
+      <Route path="/materials/:id/delete" element={<MaterialDelete />} />
+
+      <Route path="/material-requests" element={<MaterialRequestList />} />
+      <Route path="/material-requests/new" element={<MaterialRequestCreate />} />
+      <Route path="/material-requests/:id" element={<MaterialRequestDetail />} />
+      <Route path="/material-requests/:id/edit" element={<MaterialRequestEdit />} />
+      <Route path="/material-requests/:id/delete" element={<MaterialRequestDelete />} />
+
+      <Route path="/companies/new" element={<CompanyCreate />} />
 
     </Route>
   )

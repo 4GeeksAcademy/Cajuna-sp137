@@ -263,12 +263,16 @@ class MaterialRequest(db.Model):
         nullable=False,
     )
 
-    items: Mapped[list["MaterialRequestItem"]] = relationship()
+    employee: Mapped["Employee"] = relationship()
+    items: Mapped[list["MaterialRequestItem"]] = relationship(
+        cascade="all, delete-orphan"
+    )
 
     def to_dict(self):
         return {
             "id": self.id,
             "employee_id": self.employee_id,
+            "employee_name": f"{self.employee.first_name} {self.employee.last_name}",
             "company_id": self.company_id,
             "status": self.status,
             "notes": self.notes,
