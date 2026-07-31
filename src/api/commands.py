@@ -18,6 +18,8 @@ def setup_commands(app):
         c1 = Company(
             name="Constructora del Sur",
             tax_id="J-12345678-9",
+            email="admin.sur@constructora-sur.com",
+            password="12345678",
             phone="+58 212-555-0101",
             address="Av. Principal, Edif. Sur, Piso 3",
             city="Caracas",
@@ -79,7 +81,8 @@ def setup_commands(app):
 
         c1_emps = list(
             db.session.scalars(
-                db.select(Employee).where(Employee.company_id == c1.id).offset(1)
+                db.select(Employee).where(
+                    Employee.company_id == c1.id).offset(1)
             ).all()
         )
 
@@ -132,6 +135,8 @@ def setup_commands(app):
         c2 = Company(
             name="Ferremateriales Norte",
             tax_id="J-87654321-0",
+            email="admin.norte@ferremateriales-norte.com",
+            password="12345678",
             phone="+58 261-555-0202",
             address="Calle 5, Local 12",
             city="Maracaibo",
@@ -192,7 +197,8 @@ def setup_commands(app):
 
         c2_emps = list(
             db.session.scalars(
-                db.select(Employee).where(Employee.company_id == c2.id).offset(1)
+                db.select(Employee).where(
+                    Employee.company_id == c2.id).offset(1)
             ).all()
         )
 
@@ -225,7 +231,8 @@ def setup_commands(app):
                 c2_emps[3],
                 "aprobado",
                 "Reposicion de inventario basico",
-                [(c2_materials[0], 100), (c2_materials[3], 300), (c2_materials[2], 50)],
+                [(c2_materials[0], 100), (c2_materials[3], 300),
+                 (c2_materials[2], 50)],
             ),
         ]
         for emp, status, notes, items in c2_reqs:
@@ -245,6 +252,8 @@ def setup_commands(app):
         c3 = Company(
             name="Inversiones Oriente",
             tax_id="J-55667788-1",
+            email="admin.orienten@inversiones-oriente.com",
+            password="12345678",
             phone="+58 281-555-0303",
             address="Av. Bolivar, Centro Comercial Oriente, Local 5",
             city="Barcelona",
@@ -306,7 +315,8 @@ def setup_commands(app):
 
         c3_emps = list(
             db.session.scalars(
-                db.select(Employee).where(Employee.company_id == c3.id).offset(1)
+                db.select(Employee).where(
+                    Employee.company_id == c3.id).offset(1)
             ).all()
         )
 

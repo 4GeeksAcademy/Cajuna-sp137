@@ -8,14 +8,12 @@ export const CompanyCreate = () => {
     const [form, setForm] = useState({
         name: "",
         tax_id: "",
+        email: "",
+        password: "",
         phone: "",
         address: "",
         city: "",
         country: "Venezuela",
-        admin_first_name: "",
-        admin_last_name: "",
-        admin_email: "",
-        admin_password: "",
     })
     const [submitting, setSubmitting] = useState(false)
     const [error, setError] = useState(null)
@@ -87,27 +85,17 @@ export const CompanyCreate = () => {
                     <input name="city" value={form.city} onChange={handleChange} className="form-control" />
                 </div>
 
-                <h5 className="mt-4">Admin Employee</h5>
+                <h5 className="mt-4">Company Account</h5>
                 <hr />
-                <p className="text-muted small">The first employee is the company admin.</p>
-                <div className="row">
-                    <div className="col-md-6 mb-3">
-                        <label className="form-label">First Name</label>
-                        <input name="admin_first_name" value={form.admin_first_name} onChange={handleChange} className="form-control" required />
-                    </div>
-                    <div className="col-md-6 mb-3">
-                        <label className="form-label">Last Name</label>
-                        <input name="admin_last_name" value={form.admin_last_name} onChange={handleChange} className="form-control" required />
-                    </div>
-                </div>
+                <p className="text-muted small">Credentials used by the company to manage its employees.</p>
                 <div className="row">
                     <div className="col-md-6 mb-3">
                         <label className="form-label">Email</label>
-                        <input name="admin_email" type="email" value={form.admin_email} onChange={handleChange} className="form-control" required />
+                        <input name="email" type="email" value={form.email} onChange={handleChange} className="form-control" required />
                     </div>
                     <div className="col-md-6 mb-3">
                         <label className="form-label">Password</label>
-                        <input name="admin_password" type="password" value={form.admin_password} onChange={handleChange} className="form-control" required />
+                        <input name="password" type="password" value={form.password} onChange={handleChange} className="form-control" required minLength={1} />
                     </div>
                 </div>
 

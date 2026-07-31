@@ -5,7 +5,7 @@ from pydantic import ValidationError
 from sqlalchemy import select
 
 from api.companies import companies_bp
-from api.models import Company, Employee, db
+from api.models import Company, db
 
 from .schemas import CompanyCreateSchema, CompanyPatchSchema
 
@@ -51,19 +51,12 @@ def create_company():
     company = Company(
         name=company_data.name,
         tax_id=company_data.tax_id,
+        email=str(company_data.email),
+        password=company_data.password,
         phone=company_data.phone,
         address=company_data.address,
         city=company_data.city,
         country=company_data.country,
-    )
-
-    company.employees.append(
-        Employee(
-            first_name=company_data.admin_first_name,
-            last_name=company_data.admin_last_name,
-            email=company_data.admin_email,
-            password=company_data.admin_password,
-        )
     )
 
     db.session.add(company)
@@ -73,7 +66,6 @@ def create_company():
         {
             "message": "Company created",
             "company": company.to_dict(),
-            "admin": company.employees[0].to_dict(),
         }
     ), HTTPStatus.CREATED
 

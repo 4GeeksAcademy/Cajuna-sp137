@@ -4,7 +4,6 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (
     Boolean,
     DateTime,
-    Enum,
     ForeignKey,
     Integer,
     String,
@@ -17,7 +16,8 @@ db = SQLAlchemy()
 
 class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
-    email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(
+        String(120), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean(), nullable=False)
 
@@ -44,6 +44,17 @@ class Company(db.Model):
     tax_id: Mapped[str] = mapped_column(
         String(50),
         unique=True,
+        nullable=False,
+    )
+
+    email: Mapped[str] = mapped_column(
+        String(255),
+        unique=True,
+        nullable=False,
+    )
+
+    password: Mapped[str] = mapped_column(
+        String(255),
         nullable=False,
     )
 
@@ -80,13 +91,15 @@ class Company(db.Model):
         nullable=False,
     )
 
-    employees: Mapped[list["Employee"]] = relationship(back_populates="company")
+    employees: Mapped[list["Employee"]] = relationship(
+        back_populates="company")
 
     def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
             "tax_id": self.tax_id,
+            "email": self.email,
             "phone": self.phone,
             "address": self.address,
             "city": self.city,
