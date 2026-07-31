@@ -160,6 +160,9 @@ class Employee(db.Model):
     )
 
     company: Mapped["Company"] = relationship(back_populates="employees")
+    time_entries: Mapped[list["TimeEntry"]] = relationship(
+        back_populates="employee"
+    )
 
     def to_dict(self):
         return {
@@ -331,4 +334,38 @@ class MaterialRequestItem(db.Model):
             "material_id": self.material_id,
             "material_name": self.material.name,
             "quantity_requested": self.quantity_requested,
+        }
+
+
+class TimeEntry(db.Model):
+    __tablename__: str = "time_entry"
+
+    id: Mapped[int] = mapped_column(
+        primary_key=True,
+    )
+
+    employee_id: Mapped[int] = mapped_column(
+        ForeignKey("employee.id"),
+        nullable=False,
+    )
+
+    check_in: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        nullable=False,
+    )
+
+    check_out: Mapped[datetime | None] = mapped_column(
+        DateTime(timezone=True),
+        nullable=True,
+    )
+
+    employee: Mapped["Employee"] = relationship(back_populates="time_entries")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "employee_id": self.employee_id,
+            "employee_name": f"{self.employee.first_name} {self.employee.last_name}",
+            "check_in": self.check_in.isoformat(),
+            "check_out": self.check_out.isoformat() if self.check_out else None,
         }
