@@ -14,7 +14,10 @@ from api.companies import companies_bp
 from api.employees import employees_bp
 from api.materials import materials_bp
 from api.material_requests import material_requests_bp
+from api.medical_leave_requests import medical_leave_requests_bp
+from api.permit_requests import permit_requests_bp
 from api.time_entries import time_entries_bp
+from api.vacation_requests import vacation_requests_bp
 from api.models import db
 from api.routes import api
 from api.utils import APIException, generate_sitemap
@@ -52,7 +55,10 @@ app.register_blueprint(employees_bp, url_prefix="/api")
 app.register_blueprint(companies_bp, url_prefix="/api")
 app.register_blueprint(materials_bp, url_prefix="/api")
 app.register_blueprint(material_requests_bp, url_prefix="/api")
+app.register_blueprint(medical_leave_requests_bp, url_prefix="/api")
+app.register_blueprint(permit_requests_bp, url_prefix="/api")
 app.register_blueprint(time_entries_bp, url_prefix="/api")
+app.register_blueprint(vacation_requests_bp, url_prefix="/api")
 
 
 # Handle/serialize errors like a JSON object

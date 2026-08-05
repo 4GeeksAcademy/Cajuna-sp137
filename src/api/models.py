@@ -1,8 +1,9 @@
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (
     Boolean,
+    Date,
     DateTime,
     ForeignKey,
     Integer,
@@ -161,6 +162,15 @@ class Employee(db.Model):
 
     company: Mapped["Company"] = relationship(back_populates="employees")
     time_entries: Mapped[list["TimeEntry"]] = relationship(
+        back_populates="employee"
+    )
+    vacation_requests: Mapped[list["VacationRequest"]] = relationship(
+        back_populates="employee"
+    )
+    permit_requests: Mapped[list["PermitRequest"]] = relationship(
+        back_populates="employee"
+    )
+    medical_leave_requests: Mapped[list["MedicalLeaveRequest"]] = relationship(
         back_populates="employee"
     )
 
@@ -369,3 +379,145 @@ class TimeEntry(db.Model):
             "check_in": self.check_in.isoformat(),
             "check_out": self.check_out.isoformat() if self.check_out else None,
         }
+
+
+class VacationRequest(db.Model):
+    __tablename__: str = "vacation_request"
+
+    id: Mapped[int] = mapped_column(
+        primary_key=True,
+    )
+
+    employee_id: Mapped[int] = mapped_column(
+        ForeignKey("employee.id"),
+        nullable=False,
+    )
+
+    start_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    end_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    status: Mapped[str] = mapped_column(
+        String(50),
+        default="pendiente",
+        nullable=False,
+    )
+
+    employee: Mapped["Employee"] = relationship(
+        back_populates="vacation_requests"
+    )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "employee_id": self.employee_id,
+            "employee_name": f"{self.employee.first_name} {self.employee.last_name}",
+            "start_date": self.start_date.isoformat(),
+            "end_date": self.end_date.isoformat(),
+            "status": self.status,
+        }
+
+
+class PermitRequest(db.Model):
+    __tablename__: str = "permit_request"
+
+    id: Mapped[int] = mapped_column(
+        primary_key=True,
+    )
+
+    employee_id: Mapped[int] = mapped_column(
+        ForeignKey("employee.id"),
+        nullable=False,
+    )
+
+    start_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    end_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    reason: Mapped[str] = mapped_column(
+        Text,
+        nullable=False,
+    )
+
+    status: Mapped[str] = mapped_column(
+        String(50),
+        default="pendiente",
+        nullable=False,
+    )
+
+    employee: Mapped["Employee"] = relationship(
+        back_populates="permit_requests"
+    )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "employee_id": self.employee_id,
+            "employee_name": f"{self.employee.first_name} {self.employee.last_name}",
+            "start_date": self.start_date.isoformat(),
+            "end_date": self.end_date.isoformat(),
+            "reason": self.reason,
+            "status": self.status,
+        }
+
+
+class MedicalLeaveRequest(db.Model):
+    __tablename__: str = "medical_leave_request"
+
+    id: Mapped[int] = mapped_column(
+        primary_key=True,
+    )
+
+    employee_id: Mapped[int] = mapped_column(
+        ForeignKey("employee.id"),
+        nullable=False,
+    )
+
+    start_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    end_date: Mapped[date] = mapped_column(
+        Date,
+        nullable=False,
+    )
+
+    document: Mapped[str] = mapped_column(
+        String(255),
+        nullable=False,
+    )
+
+    status: Mapped[str] = mapped_column(
+        String(50),
+        default="pendiente",
+        nullable=False,
+    )
+
+    employee: Mapped["Employee"] = relationship(
+        back_populates="medical_leave_requests"
+    )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "employee_id": self.employee_id,
+            "employee_name": f"{self.employee.first_name} {self.employee.last_name}",
+            "start_date": self.start_date.isoformat(),
+            "end_date": self.end_date.isoformat(),
+            "document": self.document,
+            "status": self.status,
+        }
+

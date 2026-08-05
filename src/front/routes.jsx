@@ -30,6 +30,21 @@ import { TimeEntryCreate } from "./pages/TimeEntryCreate";
 import { TimeEntryDetail } from "./pages/TimeEntryDetail";
 import { TimeEntryEdit } from "./pages/TimeEntryEdit";
 import { TimeEntryDelete } from "./pages/TimeEntryDelete";
+import { VacationRequestList } from "./pages/VacationRequestList";
+import { VacationRequestCreate } from "./pages/VacationRequestCreate";
+import { VacationRequestDetail } from "./pages/VacationRequestDetail";
+import { VacationRequestEdit } from "./pages/VacationRequestEdit";
+import { VacationRequestDelete } from "./pages/VacationRequestDelete";
+import { PermitRequestList } from "./pages/PermitRequestList";
+import { PermitRequestCreate } from "./pages/PermitRequestCreate";
+import { PermitRequestDetail } from "./pages/PermitRequestDetail";
+import { PermitRequestEdit } from "./pages/PermitRequestEdit";
+import { PermitRequestDelete } from "./pages/PermitRequestDelete";
+import { MedicalLeaveRequestList } from "./pages/MedicalLeaveRequestList";
+import { MedicalLeaveRequestCreate } from "./pages/MedicalLeaveRequestCreate";
+import { MedicalLeaveRequestDetail } from "./pages/MedicalLeaveRequestDetail";
+import { MedicalLeaveRequestEdit } from "./pages/MedicalLeaveRequestEdit";
+import { MedicalLeaveRequestDelete } from "./pages/MedicalLeaveRequestDelete";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -71,6 +86,24 @@ export const router = createBrowserRouter(
       <Route path="/time-entries/:id/delete" element={<TimeEntryDelete />} />
 
       <Route path="/companies/new" element={<CompanyCreate />} />
+
+      <Route path="/vacation-requests" element={<VacationRequestList />} />
+      <Route path="/vacation-requests/new" element={<VacationRequestCreate />} />
+      <Route path="/vacation-requests/:id" element={<VacationRequestDetail />} />
+      <Route path="/vacation-requests/:id/edit" element={<VacationRequestEdit />} />
+      <Route path="/vacation-requests/:id/delete" element={<VacationRequestDelete />} />
+
+      <Route path="/permit-requests" element={<PermitRequestList />} />
+      <Route path="/permit-requests/new" element={<PermitRequestCreate />} />
+      <Route path="/permit-requests/:id" element={<PermitRequestDetail />} />
+      <Route path="/permit-requests/:id/edit" element={<PermitRequestEdit />} />
+      <Route path="/permit-requests/:id/delete" element={<PermitRequestDelete />} />
+
+      <Route path="/medical-leave-requests" element={<MedicalLeaveRequestList />} />
+      <Route path="/medical-leave-requests/new" element={<MedicalLeaveRequestCreate />} />
+      <Route path="/medical-leave-requests/:id" element={<MedicalLeaveRequestDetail />} />
+      <Route path="/medical-leave-requests/:id/edit" element={<MedicalLeaveRequestEdit />} />
+      <Route path="/medical-leave-requests/:id/delete" element={<MedicalLeaveRequestDelete />} />
 
     </Route>
   )

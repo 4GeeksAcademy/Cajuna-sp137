@@ -1,9 +1,14 @@
+from datetime import date
+
 from api.models import (
     Company,
     Employee,
     Material,
     MaterialRequest,
     MaterialRequestItem,
+    MedicalLeaveRequest,
+    PermitRequest,
+    VacationRequest,
     db,
 )
 
@@ -370,6 +375,51 @@ def setup_commands(app):
                     )
                 )
 
+        # ── Solicitudes de vacaciones, permisos e incapacidades ───
+        for emps in [c1_emps, c2_emps, c3_emps]:
+            db.session.add_all([
+                VacationRequest(
+                    employee_id=emps[0].id,
+                    start_date=date(2026, 8, 10),
+                    end_date=date(2026, 8, 24),
+                    status="aprobado",
+                ),
+                VacationRequest(
+                    employee_id=emps[1].id,
+                    start_date=date(2026, 9, 1),
+                    end_date=date(2026, 9, 15),
+                    status="pendiente",
+                ),
+                PermitRequest(
+                    employee_id=emps[2].id,
+                    start_date=date(2026, 8, 12),
+                    end_date=date(2026, 8, 13),
+                    reason="Tramite bancario",
+                    status="pendiente",
+                ),
+                PermitRequest(
+                    employee_id=emps[3].id,
+                    start_date=date(2026, 8, 5),
+                    end_date=date(2026, 8, 5),
+                    reason="Cita medica",
+                    status="aprobado",
+                ),
+                MedicalLeaveRequest(
+                    employee_id=emps[4].id,
+                    start_date=date(2026, 7, 20),
+                    end_date=date(2026, 7, 27),
+                    document="reposo_dr_garcia.pdf",
+                    status="aprobado",
+                ),
+                MedicalLeaveRequest(
+                    employee_id=emps[5].id,
+                    start_date=date(2026, 8, 3),
+                    end_date=date(2026, 8, 5),
+                    document="reposo_clinica_sur.pdf",
+                    status="rechazado",
+                ),
+            ])
+
         db.session.commit()
 
         print("Test data created successfully!")
@@ -377,3 +427,6 @@ def setup_commands(app):
         print("  27 employees (3 admins + 24 regular)")
         print("  27 materials")
         print("  15 material requests")
+        print("  6 vacation requests")
+        print("  6 permit requests")
+        print("  6 medical leave requests")

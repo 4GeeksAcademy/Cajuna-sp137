@@ -20,6 +20,15 @@ export const Navbar = () => {
 				<Link to="/time-entries">
 					<button type="button" className="btn btn-primary">Time Entries</button>
 				</Link>
+				<Link to="/vacation-requests">
+					<button type="button" className="btn btn-primary">Vacations</button>
+				</Link>
+				<Link to="/permit-requests">
+					<button type="button" className="btn btn-primary">Permits</button>
+				</Link>
+				<Link to="/medical-leave-requests">
+					<button type="button" className="btn btn-primary">Medical Leaves</button>
+				</Link>
 				<Link to="/companies/new">
 					<button type="button" className="btn btn-success">+ New Company</button>
 				</Link>
