@@ -6,7 +6,7 @@ from flask import jsonify, request
 from pydantic import ValidationError
 from sqlalchemy import select
 
-from api.models import TimeEntry, db
+from api.models import Employee, TimeEntry, db
 from api.time_entries import time_entries_bp
 
 from .schemas import TimeEntryCreateSchema, TimeEntryPatchSchema
@@ -15,7 +15,10 @@ from .schemas import TimeEntryCreateSchema, TimeEntryPatchSchema
 @time_entries_bp.get("/time_entries")
 def get_time_entries():
     employee_id = request.args.get("employee_id", type=int)
+    company_id = request.args.get("company_id", type=int)
     query = select(TimeEntry)
+    if company_id:
+        query = query.join(Employee).where(Employee.company_id == company_id)
     if employee_id:
         query = query.where(TimeEntry.employee_id == employee_id)
     entries = db.session.scalars(query).all()

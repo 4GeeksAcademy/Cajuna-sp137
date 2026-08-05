@@ -25,6 +25,11 @@ import { MaterialRequestCreate } from "./pages/MaterialRequestCreate";
 import { MaterialRequestEdit } from "./pages/MaterialRequestEdit";
 import { MaterialRequestDelete } from "./pages/MaterialRequestDelete";
 import { CompanyCreate } from "./pages/CompanyCreate";
+import { TimeEntryList } from "./pages/TimeEntryList";
+import { TimeEntryCreate } from "./pages/TimeEntryCreate";
+import { TimeEntryDetail } from "./pages/TimeEntryDetail";
+import { TimeEntryEdit } from "./pages/TimeEntryEdit";
+import { TimeEntryDelete } from "./pages/TimeEntryDelete";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -58,6 +63,12 @@ export const router = createBrowserRouter(
       <Route path="/material-requests/:id" element={<MaterialRequestDetail />} />
       <Route path="/material-requests/:id/edit" element={<MaterialRequestEdit />} />
       <Route path="/material-requests/:id/delete" element={<MaterialRequestDelete />} />
+
+      <Route path="/time-entries" element={<TimeEntryList />} />
+      <Route path="/time-entries/new" element={<TimeEntryCreate />} />
+      <Route path="/time-entries/:id" element={<TimeEntryDetail />} />
+      <Route path="/time-entries/:id/edit" element={<TimeEntryEdit />} />
+      <Route path="/time-entries/:id/delete" element={<TimeEntryDelete />} />
 
       <Route path="/companies/new" element={<CompanyCreate />} />
 

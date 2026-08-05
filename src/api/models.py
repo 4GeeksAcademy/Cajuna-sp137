@@ -58,7 +58,7 @@ class Company(db.Model):
         nullable=False,
     )
 
-    phone: Mapped[str | None] = mapped_column(
+    phone: Mapped[str | None] = mapped_column(  
         String(30),
         nullable=True,
     )

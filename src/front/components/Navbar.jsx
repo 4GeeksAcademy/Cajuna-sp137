@@ -17,6 +17,9 @@ export const Navbar = () => {
 				<Link to="/material-requests">
 					<button type="button" className="btn btn-primary">Material Requests</button>
 				</Link>
+				<Link to="/time-entries">
+					<button type="button" className="btn btn-primary">Time Entries</button>
+				</Link>
 				<Link to="/companies/new">
 					<button type="button" className="btn btn-success">+ New Company</button>
 				</Link>
